@@ -115,4 +115,7 @@ crashlytics-build.properties
 *.orig.meta
 
 # Ignore build reports
-/Assets/BuildReports*
+/Assets/BuildR
+
+# Exclude rider idea data
+.idea
