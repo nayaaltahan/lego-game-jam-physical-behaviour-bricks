@@ -1,0 +1,19 @@
+{
+    "name": "LEGO.ModelImporter.Editor",
+    "references": [
+        "LEGO.ModelImporter",
+        "Lego.Materials",
+        "Lego.Materials.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

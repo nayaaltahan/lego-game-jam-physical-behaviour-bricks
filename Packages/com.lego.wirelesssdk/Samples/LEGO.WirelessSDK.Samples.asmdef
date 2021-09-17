@@ -1,0 +1,16 @@
+{
+    "name": "LEGO.WirelessSDK.Samples",
+    "references": [
+        "GUID:8abcca6beada742c79a2293260c3c269",
+        "GUID:873f8b414ab6a44fd93fe9b0d2ef3a34"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

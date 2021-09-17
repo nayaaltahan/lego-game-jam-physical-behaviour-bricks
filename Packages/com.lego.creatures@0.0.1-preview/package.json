@@ -1,0 +1,17 @@
+{
+  "name": "com.lego.creatures",
+  "displayName": "LEGO Creatures",
+  "version": "0.0.2-preview",
+  "unity": "2020.2",
+  "description": "Package containing a selection of animated LEGO critters and creatures.",
+  "samples": [
+    {
+      "displayName": "Creatures Example",
+      "description": "Shows critters and creatures with animations and audio.",
+      "path": "Samples~/CreaturesExample"
+    }
+  ],
+  "dependencies": {
+    "com.unity.render-pipelines.universal": "10.2.2"
+  }
+}

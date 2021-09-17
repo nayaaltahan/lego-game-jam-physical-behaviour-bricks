@@ -1,0 +1,23 @@
+{
+    "name": "Unity.LEGO.Behaviours",
+    "rootNamespace": "",
+    "references": [
+        "GUID:ef186c6864b89fc42a04c4836bf9e6b3",
+        "GUID:417dfeada97c8614483936c399c616a9",
+        "GUID:5b3d0b8d17f28de41ad07fa595d5d3ed",
+        "GUID:172a0c013045d14438ad41a064430bc6",
+        "GUID:c9b928b87f41fb047b5e3458ad14af40",
+        "GUID:3d1053ed6c4089d49a69eaa4ccb08e0d",
+        "GUID:873f8b414ab6a44fd93fe9b0d2ef3a34",
+        "GUID:8abcca6beada742c79a2293260c3c269"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

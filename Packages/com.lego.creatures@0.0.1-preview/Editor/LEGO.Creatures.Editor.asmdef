@@ -1,0 +1,18 @@
+{
+    "name": "LEGO.Creatures.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:43a2893fae73d7a4ba34f4daef8b022c"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

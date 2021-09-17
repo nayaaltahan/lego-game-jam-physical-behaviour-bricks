@@ -1,0 +1,16 @@
+{
+    "name": "Creatures Samples",
+    "rootNamespace": "",
+    "references": [
+        "GUID:43a2893fae73d7a4ba34f4daef8b022c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

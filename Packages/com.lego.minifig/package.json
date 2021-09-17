@@ -1,0 +1,20 @@
+{
+  "name": "com.lego.minifig",
+  "displayName": "LEGO Minifig",
+  "version": "0.4.2-preview",
+  "unity": "2020.3",
+  "description": "Replace this string with your own description of the package. This description appears in the Package Manager window when the user selects this package from the list. \n\nFor best results, use this text to summarize: \n\u25aa What the package does \n\u25aa How it can benefit the user \n\nNote: Special formatting characters are supported, including line breaks ('\\n') and bullets ('\\u25AA').",
+  "samples": [
+    {
+      "displayName": "Minifig Example",
+      "description": "Shows basic locomotion and available special animations.",
+      "path": "Samples~/MinifigExample"
+    }
+  ],
+  "dependencies": {
+    "com.unity.render-pipelines.universal": "10.5.0",
+    "com.lego.materials": "0.2.3-preview",
+    "com.unity.animation.rigging": "1.0.3",
+    "com.unity.sharp-zip-lib": "1.2.2-preview"
+  }
+}

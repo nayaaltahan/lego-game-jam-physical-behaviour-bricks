@@ -1,0 +1,25 @@
+{
+    "name": "Unity.LEGO.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:26d129a9307cf4b01a39c801ffc81958",
+        "GUID:ef186c6864b89fc42a04c4836bf9e6b3",
+        "GUID:5b3d0b8d17f28de41ad07fa595d5d3ed",
+        "GUID:417dfeada97c8614483936c399c616a9",
+        "GUID:4307f53044263cf4b835bd812fc161a4",
+        "GUID:c9b928b87f41fb047b5e3458ad14af40",
+        "GUID:af42a6f0a85f510478ad5e47cfc3472b",
+        "GUID:3d1053ed6c4089d49a69eaa4ccb08e0d"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

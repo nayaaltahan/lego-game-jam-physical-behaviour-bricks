@@ -1,0 +1,17 @@
+{
+    "name": "Model Importer Samples",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5f4b3bafcdaa4475baf08f13df03ab4b",
+        "GUID:c9b928b87f41fb047b5e3458ad14af40"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

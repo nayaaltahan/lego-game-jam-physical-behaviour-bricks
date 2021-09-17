@@ -1,0 +1,4 @@
+More premade LEGO Models can be found here:
+<project_root>/Source Files/Models
+
+You can also import your own models from Bricklink Studio using the LEGO Tools menu in Unity.

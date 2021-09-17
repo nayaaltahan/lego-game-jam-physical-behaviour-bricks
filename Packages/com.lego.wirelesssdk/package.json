@@ -1,0 +1,30 @@
+{
+  "name": "com.lego.sdk.wirelesssdk",
+  "displayName": "LEGO Wireless SDK",
+  "version": "0.1.5-preview",
+  "unity": "2019.3",
+  "description": "Replace this string with your own description of the package. This description appears in the Package Manager window when the user selects this package from the list. \n\nFor best results, use this text to summarize: \n\u25aa What the package does \n\u25aa How it can benefit the user \n\nNote: Special formatting characters are supported, including line breaks ('\\n') and bullets ('\\u25AA').",
+  "samples": [
+    {
+      "displayName": "Discovery Example",
+      "description": "Description for sample 1",
+      "path": "Samples~/BasicDiscoveryExample"
+    },
+    {
+      "displayName": "Remote Control Example",
+      "description": "Description for sample 2",
+      "path": "Samples~/RemoteControlExample"
+    },
+    {
+      "displayName": "Joystick Example",
+      "description": "Description for sample 2",
+      "path": "Samples~/JoystickExample"
+    },
+    {
+      "displayName": "Various Interaction Examples",
+      "description": "Description",
+      "path": "Samples~/Dial911"
+    }
+  ],
+  "type": "template"
+}
