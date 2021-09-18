@@ -12,7 +12,7 @@ public class ColorOutput : MonoBehaviour
         get => _instance;
     }
 
-    private Queue<Color> _outputColors;
+    public static Queue<Color> _outputColors;
 
     void Awake()
     {

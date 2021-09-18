@@ -20,21 +20,21 @@ public class ColorReader : MonoBehaviour
     private bool isScanning;
     private bool isReady;
     public static List<Color> colorList;
-    public static Stack<Color> scannedColors;
+    public static List<Color> scannedColors;
 
     private bool running;
     private int speed;
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         deviceHandler.OnDeviceInitialized += OnDeviceInit;
         deviceHandler.OnDeviceAppeared += onDeviceAppear;
         deviceHandler.OnDeviceDisconnected += onDeviceDisconnect;
         deviceHandler.StartScanning();
         colorList = new List<Color>();
-        scannedColors = new Stack<Color>();
+        scannedColors = new List<Color>();
         running = false;
         speed = 50;
 
@@ -104,8 +104,9 @@ public class ColorReader : MonoBehaviour
         if (isScanning && motor)
         {
             motor.SetMotorPower(speed);
+
         }
-        else if (motor )
+        else if (motor)
         {
             motor.SetMotorPower(0);
         }
@@ -126,17 +127,21 @@ public class ColorReader : MonoBehaviour
 
     public IEnumerator Colory()
     {
-        for (int i = 0; i < 5; i++)
+        yield return new WaitForSeconds(1.8f);
+        for (int i = 0; i < 4; i++)
         {
-            colorList.Add(scannedColors.Pop());
+            colorList.Add(scannedColors.Last());
+            Debug.Log("just added " + scannedColors[scannedColors.Count -1]);
             yield return new WaitForSeconds(3.6f);
         }
 
-        for (int i = 0; i < colorList.Count; i++)
+        for (int i = 0; i < scannedColors.Count; i++)
         {
-            Debug.Log(colorList[i]);
+            Debug.Log(scannedColors[i]);
         }
+
         scannedColors.Clear();
+
     }
 
     public IEnumerator Scan()
@@ -174,6 +179,10 @@ public class ColorSensor : MonoBehaviour, ILEGOGeneralServiceDelegate
 
   // #endregion
 
+  private void Update()
+  {
+
+  }
 
   #region Generic data Callback
 
@@ -193,82 +202,87 @@ public class ColorSensor : MonoBehaviour, ILEGOGeneralServiceDelegate
     } else {
         /*Debug.LogFormat("DidUpdateValue {0} {1}", newValue.RawValues, newValue.RawValues[0]);
         Debug.Log("Current color is " + _defaultColorSet[index]);*/
-        ColorReader.scannedColors.Push(_defaultColorSet[index]);
+        ColorReader.scannedColors.Add(_defaultColorSet[index]);
     }
   }
 
   #endregion
 
-  // Copied from LEGORGBLight
+  #region Color mapping
+
   private Color[] _defaultColorSet = new Color[]
-            {
-                Color0(),
-                Color1(),
-                Color2(),
-                Color3(),
-                Color4(),
-                Color5(),
-                Color6(),
-                Color7(),
-                Color8(),
-                Color9(),
-                Color10(),
-            };
-        private static Color Color10()
-        {
-            return new Color32(255, 110, 60, 255);
-        }
+  {
+      Color0(),
+      Color1(),
+      Color2(),
+      Color3(),
+      Color4(),
+      Color5(),
+      Color6(),
+      Color7(),
+      Color8(),
+      Color9(),
+      Color10(),
+  };
+  private static Color Color10()
+  {
+      return new Color32(255, 110, 60, 255);
+  }
 
-        private static Color Color9()
-        {
-            return new Color32(255, 0, 0, 255);
-        }
+  private static Color Color9()
+  {
+      return new Color32(255, 0, 0, 255);
+  }
 
-        private static Color Color8()
-        {
-            return new Color32(255, 20, 0, 255);
-        }
+  private static Color Color8()
+  {
+      return new Color32(255, 20, 0, 255);
+  }
 
-        private static Color Color7()
-        {
-            return new Color32(255, 55, 0, 255);
-        }
+  private static Color Color7()
+  {
+      return new Color32(255, 55, 0, 255);
+  }
 
-        private static Color Color6()
-        {
-            return new Color32(0, 200, 5, 255);
-        }
+  private static Color Color6()
+  {
+      return new Color32(0, 200, 5, 255);
+  }
 
-        private static Color Color5()
-        {
-            return new Color32(0, 255, 60, 255);
-        }
+  private static Color Color5()
+  {
+      return new Color32(0, 255, 60, 255);
+  }
 
-        private static Color Color4()
-        {
-            return new Color32(70, 155, 140, 255);
-        }
+  private static Color Color4()
+  {
+      return new Color32(70, 155, 140, 255);
+  }
 
-        private static Color Color3()
-        {
-            return new Color32(0, 0, 255, 255);
-        }
+  private static Color Color3()
+  {
+      return new Color32(0, 0, 255, 255);
+  }
 
-        private static Color Color2()
-        {
-            return new Color32(145, 0, 130, 255);
-        }
+  private static Color Color2()
+  {
+      return new Color32(145, 0, 130, 255);
+  }
 
-        private static Color Color1()
-        {
-            return new Color32(255, 10, 18, 255);
-        }
+  private static Color Color1()
+  {
+      return new Color32(255, 10, 18, 255);
+  }
 
-        private static Color Color0()
-        {
-            //aka. off
-            return new Color32(0, 0, 0, 255);
-        }
+  private static Color Color0()
+  {
+      //aka. off
+      return new Color32(0, 0, 0, 255);
+  }
+
+
+  #endregion
+    // Copied from LEGORGBLight
 
 }
 
