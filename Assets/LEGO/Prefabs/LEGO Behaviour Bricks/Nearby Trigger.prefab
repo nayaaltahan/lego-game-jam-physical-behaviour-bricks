@@ -985,7 +985,8 @@ MonoBehaviour:
   Goal: 0
   m_Conditions: []
   m_Target: 0
-  m_SpecificTargetActions: []
+  m_SpecificTargetActions:
+  - {fileID: 0}
   m_Repeat: 1
   m_Sense: 0
   m_SenseTag: 
