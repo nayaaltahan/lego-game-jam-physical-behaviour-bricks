@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
@@ -108,6 +109,8 @@ namespace LEGOMinifig
         bool inputEnabled = true;
         [SerializeField, Range(0, 10)]
         int maxJumpsInAir = 1;
+
+        private bool jumpIn;
 
         public enum SpecialAnimation
         {
@@ -256,6 +259,8 @@ namespace LEGOMinifig
             animator = GetComponent<Animator>();
             audioSource = GetComponent<AudioSource>();
 
+            jumpIn = false;
+
             // Setup rigs.
             leftArmRig = transform.Find("Left Arm Rig").GetComponent<Rig>();
             rightArmRig = transform.Find("Right Arm Rig").GetComponent<Rig>();
@@ -391,7 +396,7 @@ namespace LEGOMinifig
                 }
 
                 // Check if player is jumping.
-                if (GetJumpInput())
+                if (GetJumpInput() || jumpIn)
                 {
                     if (!airborne || jumpsInAir > 0)
                     {
@@ -421,7 +426,7 @@ namespace LEGOMinifig
                 }
 
                 // Cancel special.
-                cancelSpecial = !Mathf.Approximately(GetAxisInput("Vertical"), 0) || !Mathf.Approximately(GetAxisInput("Horizontal"), 0) || GetJumpInput();
+                cancelSpecial = !Mathf.Approximately(GetAxisInput("Vertical"), 0) || !Mathf.Approximately(GetAxisInput("Horizontal"), 0) || jumpIn;
 
             }
             else
@@ -1207,6 +1212,13 @@ namespace LEGOMinifig
         {
             return Input.GetButtonDown("Jump") || (virtualJoystick ? virtualJoystick.Jumped : false);
         }
+
+         public IEnumerator TriggerJumpInput(bool jump)
+         {
+             jumpIn = jump;
+             yield return new WaitForSeconds(0.08f);
+             jumpIn = false;
+         }
     }
 
 }
