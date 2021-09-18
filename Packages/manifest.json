@@ -4,10 +4,12 @@
     "com.unity.build-report-inspector": "0.2.2-preview",
     "com.unity.cinemachine": "2.6.4",
     "com.unity.coding": "0.1.0-preview.20",
+    "com.unity.ide.rider": "2.0.7",
     "com.unity.settings-manager": "1.0.3",
     "com.unity.test-framework": "1.1.27",
     "com.unity.textmeshpro": "3.0.6",
     "com.unity.modules.ai": "1.0.0",
+    "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
     "com.unity.modules.audio": "1.0.0",
     "com.unity.modules.director": "1.0.0",
@@ -15,7 +17,6 @@
     "com.unity.modules.physics": "1.0.0",
     "com.unity.modules.physics2d": "1.0.0",
     "com.unity.modules.screencapture": "1.0.0",
-    "com.unity.modules.uielements": "1.0.0",
-    "com.unity.modules.androidjni": "1.0.0"
+    "com.unity.modules.uielements": "1.0.0"
   }
 }
