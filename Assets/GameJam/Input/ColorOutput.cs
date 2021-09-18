@@ -33,6 +33,11 @@ public class ColorOutput : MonoBehaviour
         return _outputColors.Dequeue();
     }
 
+    public void Add(Color color)
+    {
+        _outputColors.Enqueue(color);
+    }
+
     public void Reset()
     {
         _outputColors.Clear();
