@@ -51,27 +51,18 @@ public class CharacterBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (ColorReader.colorList.Count > 0)
         {
-            //var color = ColorOutput.Instance.GetNextColor();
-            StartCoroutine(behavior_dict[Color.red].Execute());
+            Execute();
         }
-
-        if (Input.GetButtonDown("Fire2"))
-            StartCoroutine(behavior_dict[Color.green].Execute());
     }
 
     public void Execute()
     {
-        while (ColorOutput.Instance.Length() > 0)
+        while (ColorReader.colorList.Count > 0)
         {
-            var color = ColorOutput.Instance.GetNextColor();
+            var color = ColorReader.colorList.Dequeue();
             StartCoroutine(behavior_dict[color].Execute());
         }
-    }
-
-    public void Move()
-    {
-        //minifig.MoveTo();
     }
 }

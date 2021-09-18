@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using LEGODeviceUnitySDK;
-
+using Debug = UnityEngine.Debug;
 
 
 public class ColorReader : MonoBehaviour
@@ -19,24 +20,37 @@ public class ColorReader : MonoBehaviour
     ForceIO force;
     private bool isScanning;
     private bool isReady;
-    public static List<Color> colorList;
+    public static Queue<Color> colorList;
     public static List<Color> scannedColors;
 
     private bool running;
     private int speed;
+    private Dictionary<Color, Color> dict;
 
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         deviceHandler.OnDeviceInitialized += OnDeviceInit;
         deviceHandler.OnDeviceAppeared += onDeviceAppear;
         deviceHandler.OnDeviceDisconnected += onDeviceDisconnect;
         deviceHandler.StartScanning();
-        colorList = new List<Color>();
+        colorList = new Queue<Color>();
         scannedColors = new List<Color>();
         running = false;
         speed = 50;
+        dict = new Dictionary<Color, Color>();
+        dict.Add(ColorSensor._defaultColorSet[0], Color.black);
+        dict.Add(ColorSensor._defaultColorSet[1], Color.red );
+        dict.Add( ColorSensor._defaultColorSet[2], Color.red);
+        dict.Add(ColorSensor._defaultColorSet[3], Color.blue);
+        dict.Add(ColorSensor._defaultColorSet[4], Color.blue);
+        dict.Add(ColorSensor._defaultColorSet[5], Color.green);
+        dict.Add(ColorSensor._defaultColorSet[6], Color.green);
+        dict.Add(ColorSensor._defaultColorSet[7], Color.red);
+        dict.Add(ColorSensor._defaultColorSet[8], Color.red);
+        dict.Add(ColorSensor._defaultColorSet[9], Color.red);
+        dict.Add(ColorSensor._defaultColorSet[10], Color.red);
 
     }
 
@@ -70,19 +84,22 @@ public class ColorReader : MonoBehaviour
                 colorSensorService.UpdateInputFormat(new LEGOInputFormat(colorSensorService.ConnectInfo.PortID, colorSensorService.ioType, (int)LEGOColorSensor.LEColorSensorMode.Color, 1, LEGOInputFormat.InputFormatUnit.LEInputFormatUnitRaw, true));
                 Debug.Log("FOUND THE COLOR SENSOR!!! WOW AMAZINNG");
             }
+            if (service is LEGOSingleTechnicMotor)
+            {
+                motorService = (LEGOSingleTechnicMotor) service;
+                motor = gameObject.AddComponent<MotorIO>();
+                motorService.RegisterDelegate(motor);
+                motorService.UpdateInputFormat(new LEGOInputFormat(motorService.ConnectInfo.PortID, motorService.ioType, motorService.PositionModeNo, 1, LEGOInputFormat.InputFormatUnit.LEInputFormatUnitRaw, true));
+
+                             motor.motor = motorService;
+                             Debug.Log("FOUND A MOTOR");
+               }
             var pushMotor = ServiceHelper.GetServicesOfTypeOnPort(device, IOType.LEIOTypeTechnicMotorXL, 1);
             if (pushMotor == null || pushMotor.Count()==0)
                 Debug.Log("No motor founds");
             else
             {
-                motorService = (LEGOSingleTechnicMotor) pushMotor.First();
-                motor = gameObject.AddComponent<MotorIO>();
-                motorService.RegisterDelegate(motor);
-                motorService.UpdateInputFormat(new LEGOInputFormat(motorService.ConnectInfo.PortID, motorService.ioType,
-                    motorService.PositionModeNo, 1, LEGOInputFormat.InputFormatUnit.LEInputFormatUnitRaw, true));
 
-                motor.motor = motorService;
-                Debug.Log("FOUND A MOTOR");
             }
 
             if (service is LEGOTechnicForceSensor)
@@ -127,18 +144,23 @@ public class ColorReader : MonoBehaviour
 
     public IEnumerator Colory()
     {
-        yield return new WaitForSeconds(1.8f);
-        for (int i = 0; i < 4; i++)
-        {
-            colorList.Add(scannedColors.Last());
-            Debug.Log("just added " + scannedColors[scannedColors.Count -1]);
-            yield return new WaitForSeconds(3.6f);
-        }
+        yield return new WaitForSeconds(3.4f);
+        Color newColor = dict[scannedColors.Last()];
+        colorList.Enqueue(newColor);
+        Debug.Log("just added " + newColor);
 
-        for (int i = 0; i < scannedColors.Count; i++)
-        {
-            Debug.Log(scannedColors[i]);
-        }
+        yield return new WaitForSeconds(3.7f);
+        newColor = dict[scannedColors.Last()];
+        colorList.Enqueue(newColor);
+
+        yield return new WaitForSeconds(4.7f);
+        newColor = dict[scannedColors.Last()];
+        colorList.Enqueue(newColor);
+
+        yield return new WaitForSeconds(4.2f);
+        newColor = dict[scannedColors.Last()];
+        colorList.Enqueue(newColor);
+
 
         scannedColors.Clear();
 
@@ -210,7 +232,7 @@ public class ColorSensor : MonoBehaviour, ILEGOGeneralServiceDelegate
 
   #region Color mapping
 
-  private Color[] _defaultColorSet = new Color[]
+  public static Color[] _defaultColorSet = new Color[]
   {
       Color0(),
       Color1(),
