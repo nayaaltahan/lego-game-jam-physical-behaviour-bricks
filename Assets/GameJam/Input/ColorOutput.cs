@@ -28,6 +28,11 @@ public class ColorOutput : MonoBehaviour
         _outputColors = new Queue<Color>();
     }
 
+    public int Length()
+    {
+        return _outputColors.Count;
+    }
+
     public Color GetNextColor()
     {
         return _outputColors.Dequeue();
