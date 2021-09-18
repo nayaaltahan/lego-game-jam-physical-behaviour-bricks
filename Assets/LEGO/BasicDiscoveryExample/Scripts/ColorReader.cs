@@ -169,10 +169,10 @@ public class ColorReader : MonoBehaviour
     public IEnumerator Scan()
     {
         yield return new WaitForSeconds(18);
-        speed *= -1;
-        yield return new WaitForSeconds(18);
+        speed *= -2;
+        yield return new WaitForSeconds(9);
         isScanning = false;
-        speed *= -1;
+        speed /= -2;
     }
 }
 

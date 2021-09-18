@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cef54f47d63f4c44ba642b3250433d19, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  moveDist: 5
+  moveDist: 10
   behaviorDuration: 2
