@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using LEGODeviceUnitySDK;
 
@@ -18,7 +19,11 @@ public class ColorReader : MonoBehaviour
     ForceIO force;
     private bool isScanning;
     private bool isReady;
-    public static List<Color> scannedColors;
+    public static List<Color> colorList;
+    public static Stack<Color> scannedColors;
+
+    private bool running;
+    private int speed;
 
 
     // Start is called before the first frame update
@@ -26,12 +31,29 @@ public class ColorReader : MonoBehaviour
     {
         deviceHandler.OnDeviceInitialized += OnDeviceInit;
         deviceHandler.OnDeviceAppeared += onDeviceAppear;
-        deviceHandler.AutoConnectToDeviceOfType(HubType.Technic);
+        deviceHandler.OnDeviceDisconnected += onDeviceDisconnect;
+        deviceHandler.StartScanning();
+        colorList = new List<Color>();
+        scannedColors = new Stack<Color>();
+        running = false;
+        speed = 50;
+
+    }
+
+    void onDeviceDisconnect(ILEGODevice device)
+    {
+        Debug.Log("disconnected");
     }
 
     void onDeviceAppear(ILEGODevice device)
     {
         Debug.Log("just appeared");
+        Debug.Log(device.DeviceID);
+        //if (device.DeviceID == "7E09662B84900000")
+        if (device.DeviceID == "FCBA662B84900000")
+        {
+            deviceHandler.ConnectToDevice(device);
+        }
     }
 
     void OnDeviceInit(ILEGODevice device)
@@ -48,12 +70,18 @@ public class ColorReader : MonoBehaviour
                 colorSensorService.UpdateInputFormat(new LEGOInputFormat(colorSensorService.ConnectInfo.PortID, colorSensorService.ioType, (int)LEGOColorSensor.LEColorSensorMode.Color, 1, LEGOInputFormat.InputFormatUnit.LEInputFormatUnitRaw, true));
                 Debug.Log("FOUND THE COLOR SENSOR!!! WOW AMAZINNG");
             }
-            if (service is LEGOSingleTechnicMotor && service.ConnectInfo.PortID == 1)
+            var pushMotor = ServiceHelper.GetServicesOfTypeOnPort(device, IOType.LEIOTypeTechnicMotorXL, 1);
+            if (pushMotor == null || pushMotor.Count()==0)
+                Debug.Log("No motor founds");
+            else
             {
-                motorService = (LEGOSingleTechnicMotor)service;
+                motorService = (LEGOSingleTechnicMotor) pushMotor.First();
                 motor = gameObject.AddComponent<MotorIO>();
                 motorService.RegisterDelegate(motor);
-                motorService.UpdateInputFormat(new LEGOInputFormat(motorService.ConnectInfo.PortID, motorService.ioType, motorService.PositionModeNo, 1, LEGOInputFormat.InputFormatUnit.LEInputFormatUnitRaw, true));
+                motorService.UpdateInputFormat(new LEGOInputFormat(motorService.ConnectInfo.PortID, motorService.ioType,
+                    motorService.PositionModeNo, 1, LEGOInputFormat.InputFormatUnit.LEInputFormatUnitRaw, true));
+
+                motor.motor = motorService;
                 Debug.Log("FOUND A MOTOR");
             }
 
@@ -73,48 +101,51 @@ public class ColorReader : MonoBehaviour
 
     void Update()
     {
+        if (isScanning && motor)
+        {
+            motor.SetMotorPower(speed);
+        }
+        else if (motor )
+        {
+            motor.SetMotorPower(0);
+        }
+
         if (isReady && force.forceValue > 0)
         {
             if (!isScanning)
             {
                 Debug.Log("Force is:" + force.forceValue);
                 isScanning = true;
-                StartScanning();
-            }
-            else
-            {
-                StopScanning();
-                isScanning = false;
+                StartCoroutine(Scan());
+                StartCoroutine(Colory());
             }
 
         }
+
     }
 
-    void StartScanning()
+    public IEnumerator Colory()
     {
-        if (motor)
+        for (int i = 0; i < 5; i++)
         {
-            var running = true;
-            StartCoroutine(Scan(running));
-            while (running)
-            {
-                motor.SetMotorPower(100);
-            }
+            colorList.Add(scannedColors.Pop());
+            yield return new WaitForSeconds(3.6f);
         }
-    }
 
-    void StopScanning()
-    {
-        if (motor)
+        for (int i = 0; i < colorList.Count; i++)
         {
-            motor.SetMotorPower(0);
+            Debug.Log(colorList[i]);
         }
+        scannedColors.Clear();
     }
 
-    public IEnumerator Scan(bool running)
+    public IEnumerator Scan()
     {
-        yield return new WaitForSeconds(2);
-        running = false;
+        yield return new WaitForSeconds(18);
+        speed *= -1;
+        yield return new WaitForSeconds(18);
+        isScanning = false;
+        speed *= -1;
     }
 }
 
@@ -160,10 +191,9 @@ public class ColorSensor : MonoBehaviour, ILEGOGeneralServiceDelegate
     if (index == -1) {
         Debug.Log("No color detected");
     } else {
-        Debug.LogFormat("DidUpdateValue {0} {1}", newValue.RawValues, newValue.RawValues[0]);
-        Debug.Log("Current color is " + _defaultColorSet[index]);
-        ColorReader.scannedColors.Add(_defaultColorSet[index]);
-        Debug.Log(ColorReader.scannedColors.ToString());
+        /*Debug.LogFormat("DidUpdateValue {0} {1}", newValue.RawValues, newValue.RawValues[0]);
+        Debug.Log("Current color is " + _defaultColorSet[index]);*/
+        ColorReader.scannedColors.Push(_defaultColorSet[index]);
     }
   }
 
@@ -245,7 +275,7 @@ public class ColorSensor : MonoBehaviour, ILEGOGeneralServiceDelegate
 
 class MotorIO : MonoBehaviour, ILEGOGeneralServiceDelegate
 {
-    LEGOSingleTechnicMotor motor;
+    public LEGOSingleTechnicMotor motor { set; get; }
 
     public void DidChangeState(ILEGOService service, ServiceState oldState, ServiceState newState)
     {
@@ -289,7 +319,6 @@ class MotorIO : MonoBehaviour, ILEGOGeneralServiceDelegate
 
             motor.SendCommand(powerCmd);
 
-            Debug.Log("new power: " + newPower);
         }
     }
 }
