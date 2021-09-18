@@ -119,3 +119,6 @@ crashlytics-build.properties
 
 # Exclude rider idea data
 .idea
+
+
+cpplog.txt
