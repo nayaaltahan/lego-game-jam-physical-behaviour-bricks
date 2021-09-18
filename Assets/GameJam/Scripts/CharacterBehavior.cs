@@ -17,20 +17,13 @@ public class CharacterBehavior : MonoBehaviour
 
     private Dictionary<Color, PlayerBehavior> behavior_dict;
 
-    enum CharacterState
-    {
-        Ready,
-        Move,
-        Jump,
-        Rotate,
-        Interact
-
-    }
+    public bool ready;
 
     void Awake()
     {
         MoveBehavior moveBehavior = gameObject.AddComponent<MoveBehavior>();
         moveBehavior.SetMinifigController(minifig);
+        moveBehavior.SetCharacter(this);
         moveBehavior.SetDuration(playerData.behaviorDuration);
         moveBehavior.SetDistance(playerData.moveDist);
 
@@ -40,20 +33,33 @@ public class CharacterBehavior : MonoBehaviour
 
         JumpBehavior jumpBehavior = gameObject.AddComponent<JumpBehavior>();
         jumpBehavior.SetMinifigController(minifig);
+        jumpBehavior.SetCharacter(this);
         jumpBehavior.SetDuration(playerData.behaviorDuration);
 
         behavior_dict = new Dictionary<Color, PlayerBehavior>();
         behavior_dict.Add(moveBrick.color, moveBehavior);
         behavior_dict.Add(rotateBrick.color, rotateBehavior);
         behavior_dict.Add(jumpBrick.color, jumpBehavior);
+
+        ready = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (ColorReader.colorList.Count > 0)
+        if (ready)
         {
-            Execute();
+            if (Input.GetButtonDown("Fire1"))
+            {
+
+                StartCoroutine(behavior_dict[Color.red].Execute());
+            }
+
+            if (Input.GetButtonDown("Fire2"))
+            {
+
+                StartCoroutine(behavior_dict[Color.green].Execute());
+            }
         }
     }
 

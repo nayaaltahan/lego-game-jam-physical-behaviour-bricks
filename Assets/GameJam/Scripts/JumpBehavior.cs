@@ -6,9 +6,15 @@ using UnityEngine;
 public class JumpBehavior : PlayerBehavior
 {
     private float duration;
+    private CharacterBehavior character;
     public void SetMinifigController(MinifigController controller)
     {
         this.minifigController = controller;
+    }
+
+    public void SetCharacter(CharacterBehavior characterBehavior)
+    {
+        character = characterBehavior;
     }
 
     public void SetDuration(float duration)
@@ -17,7 +23,11 @@ public class JumpBehavior : PlayerBehavior
     }
     public override IEnumerator Execute()
     {
-        StartCoroutine(minifigController.TriggerJumpInput(true));
+        character.ready = false;
+        minifigController.jumpIn = true;
+        yield return new WaitForSeconds(0.1f);
+        minifigController.jumpIn = false;
         yield return new WaitForSeconds(duration);
+        character.ready = true;
     }
 }

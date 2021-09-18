@@ -9,6 +9,9 @@ namespace LEGOMinifig
 
     public class MinifigController : MonoBehaviour
     {
+        public bool isControlledBySensors = false;
+        private Vector3 sensorMovementInput;
+
         // Constants.
         const float stickyTime = 0.05f;
         const float stickyForce = 9.6f;
@@ -110,7 +113,7 @@ namespace LEGOMinifig
         [SerializeField, Range(0, 10)]
         int maxJumpsInAir = 1;
 
-        private bool jumpIn;
+        public bool jumpIn;
 
         public enum SpecialAnimation
         {
@@ -281,6 +284,11 @@ namespace LEGOMinifig
             controller.Move(Vector3.down * 0.01f);
         }
 
+        public void SetSensorInput(Vector3 inputVec)
+        {
+            sensorMovementInput = inputVec;
+        }
+
         void Update()
         {
             if (exploded)
@@ -339,8 +347,17 @@ namespace LEGOMinifig
                                 forward.Normalize();
                             }
 
-                            var targetSpeed = right * GetAxisInput("Horizontal");
-                            targetSpeed += forward * GetAxisInput("Vertical");
+                            Vector3 targetSpeed;
+                            if (isControlledBySensors)
+                            {
+                                targetSpeed = sensorMovementInput;
+                            }
+                            else
+                            {
+                                targetSpeed = right * GetAxisInput("Horizontal");
+                                targetSpeed += forward * GetAxisInput("Vertical");
+                            }
+
                             if (targetSpeed.sqrMagnitude > 0.0f)
                             {
                                 targetSpeed.Normalize();
@@ -426,7 +443,7 @@ namespace LEGOMinifig
                 }
 
                 // Cancel special.
-                cancelSpecial = !Mathf.Approximately(GetAxisInput("Vertical"), 0) || !Mathf.Approximately(GetAxisInput("Horizontal"), 0) || jumpIn;
+                cancelSpecial = !Mathf.Approximately(GetAxisInput("Vertical"), 0) || !Mathf.Approximately(GetAxisInput("Horizontal"), 0);
 
             }
             else
@@ -1212,13 +1229,6 @@ namespace LEGOMinifig
         {
             return Input.GetButtonDown("Jump") || (virtualJoystick ? virtualJoystick.Jumped : false);
         }
-
-         public IEnumerator TriggerJumpInput(bool jump)
-         {
-             jumpIn = jump;
-             yield return new WaitForSeconds(0.08f);
-             jumpIn = false;
-         }
     }
 
 }
