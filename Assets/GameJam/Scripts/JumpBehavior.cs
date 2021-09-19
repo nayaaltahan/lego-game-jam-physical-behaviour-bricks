@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using LEGOMinifig;
+using Unity.LEGO.Behaviours;
 using UnityEngine;
 
 public class JumpBehavior : PlayerBehavior
@@ -9,7 +11,13 @@ public class JumpBehavior : PlayerBehavior
     private CharacterBehavior character;
 
     private Vector3 finalPos;
+    private bool jumping;
     private float threshold = 0.2f;
+
+    private void Awake()
+    {
+        jumping = false;
+    }
 
     private float moveDist;
     public void SetMinifigController(MinifigController controller)
@@ -35,8 +43,11 @@ public class JumpBehavior : PlayerBehavior
     private void Update()
     {
         var distToFinalPos = (finalPos - minifigController.transform.position).magnitude;
-        if(distToFinalPos < threshold)
+        if (distToFinalPos < threshold && jumping)
+        {
+            jumping = false;
             minifigController.SetSensorInput(Vector3.zero);
+        }
 
 
 
@@ -45,10 +56,10 @@ public class JumpBehavior : PlayerBehavior
     {
         character.ready = false;
         minifigController.jumpIn = true;
+        jumping = true;
         yield return new WaitForSeconds(0.1f);
 
         finalPos = minifigController.transform.forward * moveDist;
-
         minifigController.SetSensorInput(finalPos);
 
         minifigController.jumpIn = false;
