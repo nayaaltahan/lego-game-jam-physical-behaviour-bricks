@@ -35,6 +35,7 @@ public class CharacterBehavior : MonoBehaviour
         jumpBehavior.SetMinifigController(minifig);
         jumpBehavior.SetCharacter(this);
         jumpBehavior.SetDuration(playerData.behaviorDuration);
+        jumpBehavior.SetDistance(playerData.moveDist);
 
         behavior_dict = new Dictionary<Color, PlayerBehavior>();
         behavior_dict.Add(moveBrick.color, moveBehavior);
@@ -49,17 +50,7 @@ public class CharacterBehavior : MonoBehaviour
     {
         if (ready)
         {
-            if (Input.GetButtonDown("Fire1"))
-            {
-
-                StartCoroutine(behavior_dict[Color.red].Execute());
-            }
-
-            if (Input.GetButtonDown("Fire2"))
-            {
-
-                StartCoroutine(behavior_dict[Color.green].Execute());
-            }
+            Execute();
         }
     }
 

@@ -12,7 +12,6 @@ public class MoveBehavior : PlayerBehavior
     private float moveDist;
 
     private float duration;
-    private Vector3 initialPos;
     private Vector3 finalPos;
     private float threshold = 0.2f;
 
@@ -55,7 +54,6 @@ public class MoveBehavior : PlayerBehavior
     {
         Debug.Log("Move");
         character.ready = false;
-        initialPos = minifigController.transform.position;
         finalPos = minifigController.transform.forward * moveDist;
 
         minifigController.SetSensorInput(finalPos);
