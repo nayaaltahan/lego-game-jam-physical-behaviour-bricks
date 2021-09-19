@@ -4,12 +4,17 @@ using System.Collections.Generic;
 using System.Numerics;
 using LEGOMinifig;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
+using Vector3 = UnityEngine.Vector3;
 
 public class MoveBehavior : PlayerBehavior
 {
     private float moveDist;
 
     private float duration;
+    private Vector3 initialPos;
+    private Vector3 finalPos;
+    private float threshold = 0.2f;
 
     private CharacterBehavior character;
 
@@ -38,17 +43,24 @@ public class MoveBehavior : PlayerBehavior
         this.duration = duration;
     }
 
+    private void Update()
+    {
+        var distToFinalPos = (finalPos - minifigController.transform.position).magnitude;
+        if(distToFinalPos < threshold)
+            minifigController.SetSensorInput(Vector3.zero);
+
+    }
+
     public override IEnumerator Execute()
     {
         Debug.Log("Move");
         character.ready = false;
-        var pos = minifigController.transform.position;
-        var newPos = pos + minifigController.transform.forward * moveDist;
+        initialPos = minifigController.transform.position;
+        finalPos = minifigController.transform.forward * moveDist;
 
-        minifigController.SetSensorInput(UnityEngine.Vector3.one);
+        minifigController.SetSensorInput(finalPos);
 
         yield return new WaitForSeconds(duration);
-
         character.ready = true;
     }
 

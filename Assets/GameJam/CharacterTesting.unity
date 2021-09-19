@@ -320,6 +320,7 @@ MonoBehaviour:
   interactBrick: {fileID: 11400000, guid: f9afa46df4a306d4aaccda836225a903, type: 2}
   playerData: {fileID: 11400000, guid: ac5083d4f21115946b69365b8d8c6927, type: 2}
   minifig: {fileID: 1571694022}
+  ready: 0
 --- !u!4 &963567059
 Transform:
   m_ObjectHideFlags: 0
