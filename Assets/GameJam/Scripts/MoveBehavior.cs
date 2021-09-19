@@ -23,6 +23,7 @@ public class MoveBehavior : PlayerBehavior
 
     private void Start()
     {
+        moving = false;
         minifigController.isControlledBySensors = true;
     }
 
@@ -62,6 +63,7 @@ public class MoveBehavior : PlayerBehavior
     {
         character.ready = false;
         moving = true;
+        Debug.Log("Executed");
         finalPos = minifigController.transform.forward * moveDist;
         minifigController.SetSensorInput(finalPos);
 
