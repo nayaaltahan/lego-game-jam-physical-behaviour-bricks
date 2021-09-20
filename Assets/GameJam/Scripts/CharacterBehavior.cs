@@ -50,7 +50,12 @@ public class CharacterBehavior : MonoBehaviour
     {
         if (ready)
         {
-            Execute();
+            if (Input.GetButtonDown("Fire1"))
+                StartCoroutine(behavior_dict[Color.red].Execute());
+
+            if (Input.GetButtonDown("Fire2"))
+                StartCoroutine(behavior_dict[Color.green].Execute());
+            //Execute();
         }
     }
 

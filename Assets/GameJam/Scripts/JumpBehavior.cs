@@ -64,6 +64,7 @@ public class JumpBehavior : PlayerBehavior
 
         minifigController.jumpIn = false;
         yield return new WaitForSeconds(duration);
+        jumping = false;
         character.ready = true;
     }
 }
